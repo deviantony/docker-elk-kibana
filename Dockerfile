@@ -1,16 +1,16 @@
-FROM nginx:1.7.6
+FROM dockerfile/java:oracle-java7
 
-# Install wget
+ENV DEBIAN_FRONTEND noninteractive 
+
 RUN apt-get update && \
     apt-get install -y ca-certificates wget
 
-# Download and install kibana 3.1.2 in /usr/share/nginx/html 
-RUN cd /tmp && \
-    wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.tar.gz && \
-    tar -xzvf ./kibana-3.1.2.tar.gz && \
-    cp -r ./kibana-3.1.2/* /usr/share/nginx/html && \
-    rm -rf ./kibana-3.1.2 && \
-    rm ./kibana-3.1.2.tar.gz
+RUN cd /opt && \
+    wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA2.tar.gz && \
+    tar -xzvf ./kibana-4.0.0-BETA2.tar.gz && \
+    mv kibana-4.0.0-BETA2 kibana && \
+    rm kibana-4.0.0-BETA2.tar.gz
 
-# Copy over kibana configuration file.
-ADD ./conf/config.js /usr/share/nginx/html/config.js
+ADD conf/kibana.yml /opt/kibana/config/kibana.yml
+
+ENTRYPOINT ["/opt/kibana/bin/kibana"]
