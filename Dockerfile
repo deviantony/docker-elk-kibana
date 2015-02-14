@@ -6,11 +6,12 @@ RUN apt-get update && \
     apt-get install -y ca-certificates wget
 
 RUN cd /opt && \
-    wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA2.tar.gz && \
-    tar -xzvf ./kibana-4.0.0-BETA2.tar.gz && \
-    mv kibana-4.0.0-BETA2 kibana && \
-    rm kibana-4.0.0-BETA2.tar.gz
+    wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-rc1-linux-x64.tar.gz && \
+    tar -xzvf ./kibana-4.0.0-rc1-linux-x64.tar.gz && \
+    mv kibana-4.0.0-rc1-linux-x64 kibana && \
+    rm kibana-4.0.0-rc1-linux-x64.tar.gz
 
 ADD conf/kibana.yml /opt/kibana/config/kibana.yml
+ADD entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/opt/kibana/bin/kibana"]
+ENTRYPOINT ["/entrypoint.sh"]
